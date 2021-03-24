@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import MiniDrawer from './MiniDrawer'
+import axios from 'axios'
+import React,{useState,useEffect} from 'react';
 
 function App() {
+  // Getting data from Shipments
+  const [dataShip, setDataShip] = useState([]);
+  useEffect(async () => {
+    const result = await axios(
+      'https://localhost:44349/api/VieweMPowerShipment',
+    );
+ 
+    setDataShip(result.data);
+  }, []);
+
+  // Getting Data from Container
+  const [dataCont, setDataCont] = useState([]);
+  useEffect(async () => {
+    const result = await axios(
+      'https://localhost:44349/api/VieweMPowerContainer',
+    );
+    setDataCont(result.data);
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+      <MiniDrawer dataShip={dataShip} dataCont={dataCont}/>
     </div>
   );
 }
